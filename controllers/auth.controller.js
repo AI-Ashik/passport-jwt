@@ -2,7 +2,6 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
 const User = require("../models/auth.model");
 
 // post routes
@@ -86,8 +85,4 @@ const Login = async (req, res) => {
   }
 };
 
-const Profile = (req, res) => {
-  res.send("<h1>profile page</h1>");
-};
-
-module.exports = { Register, Login, Profile };
+module.exports = { Register, Login };
