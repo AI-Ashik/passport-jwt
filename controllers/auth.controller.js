@@ -26,12 +26,15 @@ const Register = async (req, res) => {
     // Save the new user to the database
     await newUser.save();
 
+    // Restructure the newUser object to extract _id field
+    const { _id: id } = newUser;
+
     // Return a success message with the user details
     return res.status(201).json({
       message: "User created successfully",
       user: {
         // eslint-disable-next-line no-underscore-dangle
-        id: newUser._id,
+        id,
         username: newUser.username,
       },
     });

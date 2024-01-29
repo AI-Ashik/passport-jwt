@@ -10,12 +10,12 @@ router.get(
   "/profile",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.status(200).json({
+    const { _id: id, username } = req.user;
+    res.json({
       success: true,
       user: {
-        // eslint-disable-next-line no-underscore-dangle
-        id: req.user._id,
-        username: req.user.username,
+        id,
+        username,
       },
     });
   }

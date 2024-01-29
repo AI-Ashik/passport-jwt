@@ -9,15 +9,15 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.JWT_SECRET;
 passport.use(
   // eslint-disable-next-line camelcase
-  new JwtStrategy(opts, (jwt_payload, done) => {
-    User.findOne({ id: jwt_payload.id }, (err, user) => {
-      if (err) {
-        return done(err, false);
-      }
+  new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+      const user = await User.findOne({ id: jwt_payload.id });
       if (user) {
         return done(null, user);
       }
       return done(null, false);
-    });
+    } catch (err) {
+      return done(err, false);
+    }
   })
 );
