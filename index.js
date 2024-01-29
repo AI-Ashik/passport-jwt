@@ -1,9 +1,10 @@
 const express = require("express");
 require("dotenv").config();
 require("./config/db");
-require("./passport");
+const passport = require("passport");
 const cors = require("cors");
 const authRouter = require("./routes/auth.route");
+require("./config/passport");
 
 const { PORT } = process.env;
 const app = express();
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/", authRouter);
+app.use(passport.initialize());
 
 app.get("/", (req, res) => {
   res.send("<h1>Home page</h1>");

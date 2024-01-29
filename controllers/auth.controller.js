@@ -2,6 +2,7 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const User = require("../models/auth.model");
 
 // post routes
