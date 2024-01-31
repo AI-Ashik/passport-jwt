@@ -5,8 +5,15 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // If user is logged in, redirect to profile page
+      navigate("/profile");
+    }
+  }, [navigate]);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -16,55 +23,31 @@ const Register = () => {
     setPassword(e.target.value);
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const currentPath = window.location.pathname;
-
-    if (currentPath !== "/register") {
-      if (token) {
-        axios
-          .get("http://localhost:3000/profile", {
-            headers: {
-              Authorization: token,
-            },
-          })
-          .then((res) => {
-            navigate("/profile");
-          })
-          .catch((error) => {
-            console.log(error.message);
-            navigate("/login");
-          });
-      } else {
-        navigate("/login");
-      }
-    }
-  }, [navigate]);
-
   const handleRegister = () => {
     axios
       .post("http://localhost:3000/register", { username, password })
       .then(() => {
         console.log("User is registered");
-        navigate("/login");
+        navigate("/login"); // Redirect to login after successful registration
       })
       .catch((error) => {
-        navigate("/register");
+        console.log(error);
+        // Handle registration failure
       });
   };
 
   return (
     <div>
       <h2>Register Page</h2>
-      <form action="">
+      <form>
         <input
           type="text"
           id="username"
           name="username"
           placeholder="username"
           value={username}
-          required
           onChange={handleUsernameChange}
+          required
         />
         <input
           type="password"
@@ -72,8 +55,8 @@ const Register = () => {
           name="password"
           placeholder="password"
           value={password}
-          required
           onChange={handlePasswordChange}
+          required
         />
         <button type="button" onClick={handleRegister}>
           Register
