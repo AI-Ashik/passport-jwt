@@ -1,8 +1,9 @@
+import Index from "./routes";
 
 function App() {
   return (
     <>
-      <h2>Hello World</h2>
+      <Index />
     </>
   );
 }
