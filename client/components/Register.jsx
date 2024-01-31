@@ -1,9 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -14,7 +17,15 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    axios.post("http://localhost:3000");
+    axios
+      .post("http://localhost:3000/register", { username, password })
+      .then(() => {
+        console.log("User is registered");
+        navigate("/login");
+      })
+      .catch((error) => {
+        navigate("/register");
+      });
   };
 
   return (
