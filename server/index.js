@@ -16,7 +16,7 @@ app.use("/", authRouter);
 app.use(passport.initialize());
 
 app.get("/", (req, res) => {
-  res.send("<h1>Home page</h1>");
+  res.send("<h1>Home page of server</h1>");
 });
 
 app.use((req, res, next) => {
