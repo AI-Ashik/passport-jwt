@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -15,6 +15,31 @@ const Register = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const currentPath = window.location.pathname;
+
+    if (currentPath !== "/register") {
+      if (token) {
+        axios
+          .get("http://localhost:3000/profile", {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((res) => {
+            navigate("/profile");
+          })
+          .catch((error) => {
+            console.log(error.message);
+            navigate("/login");
+          });
+      } else {
+        navigate("/login");
+      }
+    }
+  }, [navigate]);
 
   const handleRegister = () => {
     axios

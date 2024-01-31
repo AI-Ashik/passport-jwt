@@ -25,6 +25,11 @@ const Header = () => {
             Profile
           </Link>
         </li>
+        <li style={navItemStyle}>
+          <Link to="/logout" style={navLinkStyle}>
+            Logout
+          </Link>
+        </li>
       </ul>
     </nav>
   );

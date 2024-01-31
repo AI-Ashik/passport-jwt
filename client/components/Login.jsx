@@ -1,12 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -16,10 +14,30 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:3000/profile", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        navigate("/profile");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        navigate("/login"); // Redirect to login page on error
+      });
+  }, [navigate]); // Ad
+
   const handleLogin = () => {
     axios
       .post("http://localhost:3000/login ", { username, password })
-      .then(() => {
+      .then((user) => {
+        localStorage.setItem("token", user.data.token);
         console.log("User is logged in");
         navigate("/profile");
       })
@@ -54,6 +72,8 @@ const Login = () => {
           Login
         </button>
       </form>
+
+      <div></div>
     </div>
   );
 };
