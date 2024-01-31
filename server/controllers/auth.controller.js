@@ -88,4 +88,15 @@ const Login = async (req, res) => {
   }
 };
 
-module.exports = { Register, Login };
+const getProfile = (req, res) => {
+  const { _id: id, username } = req.user;
+  res.json({
+    success: true,
+    user: {
+      id,
+      username,
+    },
+  });
+};
+
+module.exports = { Register, Login, getProfile };
